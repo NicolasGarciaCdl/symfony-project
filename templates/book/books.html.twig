@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% for book in books %}
+ {% include 'book/_bookCard.html.twig' %}
+    <p>écrite par {{ book.author}} </p>
+{% endfor %}
+
+{% endblock %}
+
+{% block page_title %}
+    Liste des livres
+{% endblock %}
+

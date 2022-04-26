@@ -2,6 +2,10 @@
 
 {# {% block content %}#}
 
-<h1>Your lucky number is {{ number }}</h1>
+<h1>Your lucky number is {{ toto  }} </h1>
+
+{% for book in books %}
+<h2>{{ book.title }}</h2>
+{% endfor %}
 
 {# {% endblock %}#}
