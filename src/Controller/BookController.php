@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
 
-     #[Route("/books")]
+     #[Route("/books", name: 'book_listing')]
 
     public function books(BookRepository $bookRepository): Response
     {
@@ -23,5 +23,13 @@ class BookController extends AbstractController
             'page_title' => 'Liste des Livres'
         ]);
     }
-
+    #[Route('/book/{id}', name: 'book_detail')]
+    public function bookDetail($id, BookRepository $bookRepository): Response
+    {
+        $book = $bookRepository->find($id);
+        return $this->render('book/detail.html.twig',
+        [
+            'book' => $book,
+        ]);
+    }
 }

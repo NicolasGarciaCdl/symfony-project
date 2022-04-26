@@ -2,10 +2,13 @@
 
 {% block body %}
 
-{% for book in books %}
- {% include 'book/_bookCard.html.twig' %}
-    <p>écrite par {{ book.author}} </p>
-{% endfor %}
+    {% for book in books %}
+        <article>
+            {% include 'book/_bookCard.html.twig' %}
+            <p>écrite par {{ book.author}} </p>
+            <p>ISBN : {{ book.isbn }}</p>
+        </article>
+    {% endfor %}
 
 {% endblock %}
 

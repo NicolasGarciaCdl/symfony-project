@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+
 class Book
 {
     #[ORM\Id]
@@ -19,7 +21,8 @@ class Book
     #[ORM\Column(type: 'string', length: 255)]
     private string $author;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', unique: true)]
+
     private int $isbn;
 
     #[ORM\Column(type: 'string', length: 255)]
