@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Book;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -12,13 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookController extends AbstractController
 {
-    /**
-     * @Route("/books")
-     */
-    public function books(ManagerRegistry $doctrine): Response
+
+     #[Route("/books")]
+
+    public function books(BookRepository $bookRepository): Response
     {
-        $books = $doctrine->getRepository(Book::class)->findAll();
-        dd($books);
+        $books = $bookRepository->findAll();
 
         return $this->render('book/books.html.twig', [
             'books' => $books,
