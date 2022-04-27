@@ -3,11 +3,16 @@
 {% block body %}
 
     {% for book in books %}
-        <article>
-            {% include 'book/_bookCard.html.twig' %}
-            <p>écrite par {{ book.author}} </p>
-            <p>ISBN : {{ book.isbn }}</p>
-        </article>
+        <div class="container border border-primary">
+            <div class="row">
+                <article>
+                    {% include 'book/_bookCard.html.twig' %}
+                    <p>écrite par {{ book.author}} </p>
+                    <p>ISBN : {{ book.isbn }}</p>
+                </article>
+            </div>
+        </div>
+
     {% endfor %}
 
 {% endblock %}
