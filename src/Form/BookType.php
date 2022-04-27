@@ -10,10 +10,25 @@ class BookType extends \Symfony\Component\Form\AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('Title', TextType::class)
-            ->add('Author', TextType::class)
-            ->add('isbn', NumberType::class)
-            ->add('kind',TextType::class)
+            ->add('Title', TextType::class, [
+                'label'=>'Titre',
+                'attr'=>[
+                    'placeholder'=>'Titre du livre'
+                ]]
+            )
+            ->add('Author', TextType::class,[
+                'label'=>'Auteur',
+                'attr'=> ['placeholder'=>'Auteur du livre'],
+                ])
+            ->add('isbn', NumberType::class,
+                [
+                    'label'=>'ISBN',
+                    'attr'=>['placeholder'=>'Numéro ISBN']
+                    ])
+            ->add('kind',TextType::class, [
+                'label'=>'Genre',
+                'attr'=>['placeholder'=>'genre du livre']
+                ])
             ->add('save', SubmitType::class)
         ;
 }
