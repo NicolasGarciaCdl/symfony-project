@@ -47,9 +47,26 @@ class BookController extends AbstractController
     public function bookDetail($id, BookRepository $bookRepository): Response
     {
         $book = $bookRepository->find($id);
-        return $this->render('book/detail.html.twig',
+        return $this->render('/book/detail.html.twig',
         [
             'book' => $book,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Book $book, BookRepository $bookRepository): Response
+    {
+        $form = $this->createForm(\BookType::class, $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $bookRepository->add($book);
+            return $this->redirectToRoute('book_listing', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('book/edit.html.twig', [
+            'book' => $book,
+            'form' => $form,
         ]);
     }
 
