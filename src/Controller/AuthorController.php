@@ -47,6 +47,7 @@ class AuthorController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}/edit', name: 'app_author_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Author $author, AuthorRepository $authorRepository): Response
     {

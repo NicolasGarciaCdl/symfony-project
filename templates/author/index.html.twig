@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Author index{% endblock %}
+{% block page_title %}Author{% endblock %}
 
 {% block body %}
-    <h1>Author index</h1>
+    <h1>Auteur</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Birthdate</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Date de Naissance</th>
                 <th>Country_id</th>
                 <th>actions</th>
             </tr>
@@ -22,20 +22,20 @@
                 <td>{{ author.id }}</td>
                 <td>{{ author.firstname }}</td>
                 <td>{{ author.lastname }}</td>
-                <td>{{ author.birthdate ? author.birthdate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ author.birthdate ? author.birthdate|date('Y-m-d') : '' }}</td>
                 <td>{{ author.countryId }}</td>
                 <td>
-                    <a href="{{ path('app_author_show', {'id': author.id}) }}">show</a>
-                    <a href="{{ path('app_author_edit', {'id': author.id}) }}">edit</a>
+                    <a href="{{ path('app_author_show', {'id': author.id}) }} " class="btn btn-primary">Détail</a>
+                    <a href="{{ path('app_author_edit', {'id': author.id} ) }}" class="btn btn-secondary">éditer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Pas d'enregistrement</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_author_new') }}">Create new</a>
+    <a href="{{ path('app_author_new') }}" class="btn btn-warning">Créé un Auteur</a>
 {% endblock %}

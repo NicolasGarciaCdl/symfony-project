@@ -15,13 +15,16 @@
 {% include  'navbar.html.twig' %}
 
 <h1 class="mt-4 text-center">Ma Bibliothèque</h1>
-<a href="{{ path('book_create')}}">Créer un nouveau livre</a>
-<main>
 
+<main>
+    {% for label, message in app.flashes %}
+<div class="alert {{ label }}">{{ message }}</div>
+    {% endfor %}
     {% block body %}
 
     {% endblock %}
 </main>
+
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}

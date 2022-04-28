@@ -2,5 +2,14 @@
 
 {% block body %}
     <h1>Nouveau livre</h1>
-    {{ form(bookForm) }}
+    <div class="container">
+        <div class="form-group">
+            {{ form(bookForm) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block page_title %}
+ New
 {% endblock %}

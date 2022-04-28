@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    <a href="{{ path('book_create')}}">Créer un nouveau livre</a>
     {% for book in books %}
         <div class="container border border-primary">
             <div class="row">

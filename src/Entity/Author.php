@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AuthorRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
@@ -14,16 +15,16 @@ class Author
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $firstname;
+    private ?string $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $lastname;
+    private ?string $lastname;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $birthdate;
+    #[ORM\Column(type: 'date', nullable: true)]
+    private DateTimeInterface $birthdate;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $country_id;
+    private ?int $country_id;
 
     public function getId(): ?int
     {
@@ -54,12 +55,12 @@ class Author
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    public function getBirthdate(): ?DateTimeInterface
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?\DateTimeInterface $birthdate): self
+    public function setBirthdate(?DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
 
