@@ -19,6 +19,25 @@ class Country
     #[ORM\Column(type: 'string', length: 255)]
     private $code_country;
 
+    #[ORM\OneToMany(mappedBy: "authors", targetEntity: Author::class)]
+    private $author;
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

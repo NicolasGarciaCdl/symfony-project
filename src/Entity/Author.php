@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AuthorRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 class Author
@@ -23,8 +24,15 @@ class Author
     #[ORM\Column(type: 'date', nullable: true)]
     private DateTimeInterface $birthdate;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: "countries")]
     private ?int $country_id;
+
+    #[ORM\OneToMany(mappedBy: "author", targetEntity: Book::class)]
+    private $books;
+
+    #[Pure] public function __toString() {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 
     public function getId(): ?int
     {
@@ -78,4 +86,21 @@ class Author
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBooks()
+    {
+        return $this->books;
+    }
+
+    /**
+     * @param mixed $books
+     */
+    public function setBooks($books): void
+    {
+        $this->books = $books;
+    }
+
 }

@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 
@@ -18,15 +18,15 @@ class Book
     #[ORM\Column(type: 'string', length: 255)]
     private string $title;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $author;
+    #[ORM\ManyToOne(targetEntity:Author::class, inversedBy: "books")]
+    private Author $author;
 
-    #[ORM\Column(type: 'integer', unique: true)]
-
-    private int $isbn;
+    #[ORM\Column(type: 'string', unique: true)]
+    private string $isbn;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $kind;
+
 
     public function getId(): ?int
     {
@@ -45,19 +45,19 @@ class Book
         return $this;
     }
 
-    public function getAuthor(): ?string
+    public function getAuthor()
     {
         return $this->author;
     }
 
-    public function setAuthor(string $author): self
+    public function setAuthor(string $author)
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getIsbn(): ?int
+    public function getIsbn(): string
     {
         return $this->isbn;
     }
