@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Author;
+use App\Entity\Country;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -33,7 +35,11 @@ class AuthorType extends AbstractType
                     'placeholder' => 'Date de naissance de l\'auteur'
                 ]
             ])
-            ->add('country_id')
+            ->add('country', EntityType::class, [
+                'label' => 'pays',
+                'class' => Country::class,
+                'attr'=> ['placeholder'=>'Pays de l\'Auteur'],
+            ])
         ;
     }
 

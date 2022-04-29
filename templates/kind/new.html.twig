@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Kind{% endblock %}
+{% block title %}New genre{% endblock %}
 
 {% block body %}
-    <h1>Create new Kind</h1>
+    <h1>Creer un genre</h1>
 
     {{ include('kind/_form.html.twig') }}
 
-    <a href="{{ path('app_kind_index') }}">back to list</a>
+    <a href="{{ path('app_kind_index') }} class="btn btn-info">back to list</a>
 {% endblock %}

@@ -24,8 +24,8 @@ class Author
     #[ORM\Column(type: 'date', nullable: true)]
     private DateTimeInterface $birthdate;
 
-    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: "countries")]
-    private ?int $country_id;
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: "authors")]
+    private $country;
 
     #[ORM\OneToMany(mappedBy: "author", targetEntity: Book::class)]
     private $books;
@@ -75,14 +75,14 @@ class Author
         return $this;
     }
 
-    public function getCountryId(): ?int
+    public function getCountry()
     {
-        return $this->country_id;
+        return $this->country;
     }
 
-    public function setCountryId(?int $country_id): self
+    public function setCountry( $country_id)
     {
-        $this->country_id = $country_id;
+        $this->country = $country_id;
 
         return $this;
     }

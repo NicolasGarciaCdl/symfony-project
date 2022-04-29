@@ -1,20 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('book_create')}}">Créer un nouveau livre</a>
-    {% for book in books %}
-        <div class="container border border-primary">
-            <div class="row">
-                <article>
-                    {% include 'book/_bookCard.html.twig' %}
-                    <p>écrite par {{ book.author}} </p>
-                    <p>ISBN : {{ book.isbn }}</p>
+    <div class="container">
+        <a href="{{ path('book_create')}}" class="btn btn-warning m-2">Créer un nouveau livre</a>
+        <div class="d-flex justify-content-center">
+            {% for book in books %}
+                <article class="mx-2" >
+                    <div class="card" style="width: 18rem;">
+                        <img src="/images/no-image.jpg" class="card-img-top" alt="pas d'image">
+                        <div class="card-body text-center">
+                            {% include 'book/_bookCard.html.twig' %}
+                            <p class="card-text">écrit par {{ book.author}}</p>
+                            <p>ISBN : {{ book.isbn }}</p>
+                            <a href="{{ path('book_detail', {'id': book.id}) }}" class="btn btn-primary">Voir Plus</a>
+                        </div>
+                    </div>
                 </article>
-            </div>
+            {% endfor %}
         </div>
-
-    {% endfor %}
-
+    </div>
 {% endblock %}
 
 {% block page_title %}

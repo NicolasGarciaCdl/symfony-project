@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Author;
 use App\Entity\Book;
+use App\Entity\Kind;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -43,8 +44,9 @@ class BookType extends AbstractType
                         ])
                     ],
                 ])
-            ->add('kind',TextType::class, [
+            ->add('kind',EntityType::class, [
                 'label'=>'Genre',
+                'class'=> Kind::class,
                 'attr'=>['placeholder'=>'genre du livre']
             ])
             ->add('save', SubmitType::class,[
@@ -53,8 +55,6 @@ class BookType extends AbstractType
                     ]]
             )
         ;
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

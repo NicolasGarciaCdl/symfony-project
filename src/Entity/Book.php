@@ -15,14 +15,21 @@ class Book
     #[ORM\Column(type: 'integer')]
     private int $id;
 
+    #[ORM\Column(type: 'string', unique: true)]
+    private string $isbn;
+
     #[ORM\Column(type: 'string', length: 255)]
     private string $title;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $resume;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $year;
 
     #[ORM\ManyToOne(targetEntity:Author::class, inversedBy: "books")]
     private Author $author;
 
-    #[ORM\Column(type: 'string', unique: true)]
-    private string $isbn;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $kind;

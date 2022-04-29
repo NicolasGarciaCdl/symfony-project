@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Auteur</h1>
-
+    <a href="{{ path('app_author_new') }}" class="btn btn-warning">Créé un Auteur</a>
     <table class="table">
         <thead>
             <tr>
@@ -12,7 +12,7 @@
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Date de Naissance</th>
-                <th>Country_id</th>
+                <th>Country</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,8 +22,8 @@
                 <td>{{ author.id }}</td>
                 <td>{{ author.firstname }}</td>
                 <td>{{ author.lastname }}</td>
-                <td>{{ author.birthdate ? author.birthdate|date('Y-m-d') : '' }}</td>
-                <td>{{ author.countryId }}</td>
+                <td>{{ author.birthdate ? author.birthdate|date('d-m-Y') : '' }}</td>
+                <td>{{ author.country.id }}</td>
                 <td>
                     <a href="{{ path('app_author_show', {'id': author.id}) }} " class="btn btn-primary">Détail</a>
                     <a href="{{ path('app_author_edit', {'id': author.id} ) }}" class="btn btn-secondary">éditer</a>
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_author_new') }}" class="btn btn-warning">Créé un Auteur</a>
+
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CountryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 class Country
@@ -13,29 +14,34 @@ class Country
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(name: 'code_country', type: 'string', length: 2)]
+    private $codeCountry;
+
+    #[ORM\Column(name: 'country_name', type: 'string', length: 50)]
     private $countryName;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $code_country;
 
-    #[ORM\OneToMany(mappedBy: "authors", targetEntity: Author::class)]
-    private $author;
+    #[ORM\OneToMany(mappedBy: "country", targetEntity: Author::class)]
+    private $authors;
+
+    #[Pure] public function __toString() {
+        return $this->getCountryName();
+    }
 
     /**
      * @return mixed
      */
-    public function getAuthor()
+    public function getAuthors()
     {
-        return $this->author;
+        return $this->authors;
     }
 
     /**
      * @param mixed $author
      */
-    public function setAuthor($author): void
+    public function setAuthors($authors): void
     {
-        $this->author = $author;
+        $this->authors = $authors;
     }
 
     public function getId(): ?int
