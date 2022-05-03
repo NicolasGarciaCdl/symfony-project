@@ -31,6 +31,58 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
+    public function findBooksWithAuthor($searchFormValues)
+    {
+
+        dump($searchFormValues);
+        $qb = $this->createQueryBuilder('book')
+            ->select('book')
+            ->leftJoin('book.author', 'author')
+            ->addSelect('author')
+        ;
+
+        if (!empty($searchFormValues['title'])) {
+            $qb->andWhere('book.title LIKE :title')
+                ->setParameter('title', '%' . $searchFormValues['title'] .'%');
+        }
+
+        if (!empty($searchFormValues['author'])) {
+            $qb->andWhere('book.author = :author')
+                ->setParameter('author', $searchFormValues['author']);
+        }
+
+        if (!empty($searchFormValues['isbn'])) {
+            $qb->andWhere('book.isbn = :isbn')
+                ->setParameter('isbn', $searchFormValues['isbn']);
+        }
+        if (!empty($searchFormValues['kinds'])) {
+            $qb->andWhere(':kinds MEMBER OF book.kinds')
+                ->setParameter('kinds', $searchFormValues['kinds']);
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneBookByIdWithAuthorAndBookKind($id)
+    {
+        $qb = $this->createQueryBuilder('book')
+            ->select('book')
+            ->leftJoin('book.author', 'author')
+            ->addSelect('author')
+            ->leftJoin('book.kinds', 'kinds')
+            ->addSelect('kinds')
+            ->where('book.id = :id')
+            ->setParameter('id', $id)
+        ;
+
+        $query = $qb->getQuery();
+        return $query->getOneOrNullResult();
+    }
+
     /**
      *
      */

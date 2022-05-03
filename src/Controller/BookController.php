@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Form\BookSearchFormType;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,13 +19,20 @@ class BookController extends AbstractController
 
      #[Route("/", name: 'book_listing', methods:['GET','POST'])]
 
-    public function books(BookRepository $bookRepository): Response
+    public function books(BookRepository $bookRepository, Request $request): Response
     {
-        $books = $bookRepository->findAll();
+        $form = $this->createForm(BookSearchFormType::class);
+        $form->handleRequest($request);
+        $searchFormValues = [];
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchFormValues = $form->getData();
+        }
+        $books = $bookRepository->findBooksWithAuthor($searchFormValues);
 
         return $this->render('book/books.html.twig', [
             'books' => $books,
-            'page_title' => 'Liste des Livres'
+            'page_title' => 'Liste des Livres',
+            'form' => $form->createView(),
         ]);
     }
     #[Route('/create', name: 'book_create', methods:['GET', 'POST'])]
@@ -39,16 +47,23 @@ class BookController extends AbstractController
             $entityManager->persist($bookToSave);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre livre à été créé avec succès.');
+
             return $this->redirectToRoute('book_listing');
         }
+
         return $this->render('book/bookNew.html.twig', [
             'bookForm'=> $form->createView()
         ]);
     }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     #[Route('/{id}', name: 'book_detail', methods:['GET'])]
     public function bookDetail($id, BookRepository $bookRepository): Response
     {
-        $book = $bookRepository->find($id);
+        $book = $bookRepository->findOneBookByIdWithAuthorAndBookKind($id);
 
         return $this->render('/book/detail.html.twig',
         [
@@ -64,6 +79,7 @@ class BookController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bookRepository->add($book);
+            $this->addFlash('success', 'Votre livre à été modifié avec succès.');
             return $this->redirectToRoute('book_listing', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Kind;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,10 +21,7 @@ class KindRepository extends ServiceEntityRepository
         parent::__construct($registry, Kind::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
+
     public function add(Kind $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
@@ -35,10 +30,7 @@ class KindRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
+
     public function remove(Kind $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);

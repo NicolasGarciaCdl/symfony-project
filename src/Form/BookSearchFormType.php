@@ -1,6 +1,6 @@
 <?php
-namespace App\Form;
 
+namespace App\Form;
 
 use App\Entity\Author;
 use App\Entity\Book;
@@ -16,69 +16,48 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
-class BookType extends AbstractType
+class BookSearchFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('Title', TextType::class, [
+            ->setMethod('GET')
+            ->add('title', TextType::class, [
                     'label'=>'Titre',
-                    'attr'=>[
-                        'placeholder'=>'Titre du livre'
-                    ]]
-            )
-            ->add('Author', EntityType::class,[
+                    'required' => false
+                ])
+            ->add('author', EntityType::class,[
                 'label'=>'Auteur',
                 'class'=> Author::class,
-                'attr'=> ['placeholder'=>'Auteur du livre'],
-
+                'required' => false
             ])
             ->add('isbn', NumberType::class,
                 [
                     'label'=>'ISBN',
-                    'attr'=>['placeholder'=>'Numéro ISBN'],
-                    'constraints' => [
-                        new Length([
-                            'min' => 10,
-                            'max' => 13,
-                            'minMessage' => 'Le ISBN est trop court',
-                            'maxMessage' => 'Le ISBN est trop long'
-                        ])
-                    ],
+                    'required' => false
                 ])
             ->add('kinds',EntityType::class, [
                 'label'=>'Genre',
                 'class'=> Kind::class,
-                'multiple'=>true,
-                'expanded'=>true,
-                'attr'=>['placeholder'=>'genre du livre']
+                'placeholder' => "--Sélectionnez--",
+                'required' => false
             ])
             ->add('resume', TextareaType::class,[
                 'label'=> 'Description',
-                'attr' =>[
-                    'placeholder'=>'description du livre'
-                ]
+                'required' => false
             ])
             ->add('year', DateType::class, [
                 'label'=> 'Date de Sortie',
                 'widget'=>'single_text',
                 'html5' => false,
-                'attr' => [
-                    'placeholder'=> 'Date du livre'
-                ]
+                'required' => false
             ])
-            ->add('save', SubmitType::class,[
+            ->add('search', SubmitType::class,[
                     'attr'=> [
                         'class' =>'btn btn-success'
                     ],
-                    'label' => 'Enregistrer'
-                ]);
-    }
+                'label'=> 'Rechercher'
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Book::class,
         ]);
     }
 }

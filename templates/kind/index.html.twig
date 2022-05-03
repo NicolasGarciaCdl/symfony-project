@@ -3,33 +3,34 @@
 {% block title %}Liste des Genres{% endblock %}
 
 {% block body %}
-    <h1>Liste des Genres</h1>
-    <a href="{{ path('app_kind_new') }}" class="btn btn-warning">Créer un nouveau genre</a>
-    <table class="table">
-        <thead>
+    <div class="container">
+        <h1>Liste des Genres</h1>
+        <a href="{{ path('app_kinds_new') }}" class="btn btn-warning">Créer un nouveau genre</a>
+        <table class="table">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for kind in kinds %}
-            <tr>
-                <td>{{ kind.id }}</td>
-                <td>{{ kind.name }}</td>
-                <td>
-                    <a href="{{ path('app_kind_show', {'id': kind.id}) }}">Voir Détails</a>
-                    <a href="{{ path('app_kind_edit', {'id': kind.id}) }}">Editer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Pas de genres</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for kind in kinds %}
+                <tr>
+                    <td>{{ kind.id }}</td>
+                    <td>{{ kind.name }}</td>
+                    <td>
+                        <a href="{{ path('app_kinds_show', {'id': kind.id}) }}" class="btn btn-primary">Voir Détails</a>
+                        <a href="{{ path('app_kinds_edit', {'id': kind.id}) }}" class="btn btn-danger">Editer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Pas de genres</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-
+    </div>
 {% endblock %}

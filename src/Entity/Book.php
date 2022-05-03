@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
@@ -24,28 +26,41 @@ class Book
     #[ORM\Column(type: 'string', length: 255)]
     private $resume;
 
-    #[ORM\Column(type: 'string', length: 255)]
+
+    #[ORM\Column(type: 'date')]
     private $year;
 
     #[ORM\ManyToOne(targetEntity:Author::class, inversedBy: "books")]
     private Author $author;
 
+    /**
+     * @param Author $author
+     */
+    public function setAuthor(Author $author): void
+    {
+        $this->author = $author;
+    }
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $kind;
 
+    #[ORM\ManyToMany(targetEntity: Kind::class, inversedBy: 'books')]
+    private $kinds;
 
-    public function getId(): ?int
+    #[Pure] public function __construct()
+    {
+        $this->kinds = new ArrayCollection();
+    }
+
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle()
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle( $title)
     {
         $this->title = $title;
 
@@ -57,34 +72,80 @@ class Book
         return $this->author;
     }
 
-    public function setAuthor(string $author)
-    {
-        $this->author = $author;
 
-        return $this;
-    }
-
-    public function getIsbn(): string
+    public function getIsbn()
     {
         return $this->isbn;
     }
 
-    public function setIsbn(int $isbn): self
+    public function setIsbn( $isbn)
     {
         $this->isbn = $isbn;
 
         return $this;
     }
 
-    public function getKind(): ?string
+    public function getKinds()
     {
-        return $this->kind;
+        return $this->kinds;
     }
 
-    public function setKind(string $kind): self
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
     {
-        $this->kind = $kind;
+        $this->id = $id;
+    }
 
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function getResume()
+    {
+        return $this->resume;
+    }
+
+    /**
+     * @param mixed $resume
+     */
+    public function setResume($resume): void
+    {
+        $this->resume = $resume;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param mixed $year
+     */
+    public function setYear($year): void
+    {
+        $this->year = $year;
+    }
+
+    public function addKind(Kind $kind)
+    {
+        if(!$this->kinds->contains($kind)){
+            $this->kinds->add($kind);
+        }
+    }
+
+    public function removeKind(Kind $kind)
+    {
+        if ($this->kinds->contains($kind)) {
+            $this->kinds->remove($kind);
+        }
+    }
+
+    public function setKinds($kinds)
+    {
+        $this->kinds = $kinds;
     }
 }
