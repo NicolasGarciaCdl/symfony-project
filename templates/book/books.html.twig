@@ -1,40 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
-    <div id="search-form-content" class="collapse">
-        {{ form_start(form)}}
-        <div class="row">
-            <div class="col col-md-3">
-                {{form_row(form.title)}}
-            </div>
-            <div class="col col-md-3">
-                {{form_row(form.author)}}
-            </div>
-            <div class="d-flex justify-content-end">
-                {{ form_row(form.search) }}
-            </div>
-            {{ form_end(form) }}
+    <div class="container">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#search-form-content" aria-expanded="false" aria-controls="search-form-content">
+                Recherche
+            </button>
         </div>
-        <div class="container">
-            <a href="{{ path('book_create')}}" class="btn btn-warning m-2">Créer un nouveau livre</a>
-            <div class="d-flex justify-content-center flex-wrap">
-                {% for book in books %}
-                    <article class="mx-2" >
-                        <div class="card" style="width: 18rem;">
-                            <img src="/images/no-image.jpg" class="card-img-top" alt="pas d'image">
-                            <div class="card-body text-center">
-                                {% include 'book/_bookCard.html.twig' %}
-                                <p class="card-text">écrit par {{ book.author}}</p>
-                                <p>ISBN : {{ book.isbn }}</p>
-                                <a href="{{ path('book_detail', {'id': book.id}) }}" class="btn btn-primary">Voir Plus</a>
-                            </div>
+        <div id="search-form-content" class="collapse">
+            {{ form_start(form)}}
+            <div class="row">
+                <div class="col col-md-3">
+                    {{form_row(form.title)}}
+                </div>
+                <div class="col col-md-3">
+                    {{form_row(form.author)}}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.kinds) }}
+                </div>
+                <div class="d-flex justify-content-end">
+                    {{ form_row(form.search) }}
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <a href="{{ path('book_create')}}" class="btn btn-warning m-2">Créer un nouveau livre</a>
+        <div class="d-flex justify-content-center flex-wrap">
+            {% for book in books %}
+                <article class="mx-2" >
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ vich_uploader_asset(book, 'coverImageFile') }}" class="card-img-top" alt="couverture du livre {{ book.title }}">
+                        <div class="card-body text-center">
+                            {% include 'book/_bookCard.html.twig' %}
+                            <p class="card-text">écrit par {{ book.author}}</p>
+                            <p>ISBN : {{ book.isbn }}</p>
+                            <a href="{{ path('book_detail', {'id': book.id}) }}" class="btn btn-primary">Voir Plus</a>
                         </div>
-                    </article>
-                {% endfor %}
-            </div>
+                    </div>
+                </article>
+            {% endfor %}
         </div>
-        {% endblock %}
+    </div>
+{% endblock %}
 
         {% block page_title %}
             Liste des livres

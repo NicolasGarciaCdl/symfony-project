@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/book')]
+
 class BookController extends AbstractController
 {
 
@@ -35,7 +35,7 @@ class BookController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/create', name: 'book_create', methods:['GET', 'POST'])]
+    #[Route('/book/create', name: 'book_create', methods:['GET', 'POST'])]
     public function bookNew(Request $request, EntityManagerInterface $entityManager):Response
     {
         $newBook = new Book();
@@ -60,7 +60,7 @@ class BookController extends AbstractController
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    #[Route('/{id}', name: 'book_detail', methods:['GET'])]
+    #[Route('/book/{id}', name: 'book_detail', methods:['GET'])]
     public function bookDetail($id, BookRepository $bookRepository): Response
     {
         $book = $bookRepository->findOneBookByIdWithAuthorAndBookKind($id);
@@ -71,7 +71,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
+    #[Route('/book/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Book $book, BookRepository $bookRepository): Response
     {
         $form = $this->createForm(BookType::class, $book);
@@ -89,7 +89,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'book_delete', methods: ['POST'])]
+    #[Route('/book/{id}', name: 'book_delete', methods: ['POST'])]
     public function bookDelete(Request $request, Book $book, BookRepository $bookRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {

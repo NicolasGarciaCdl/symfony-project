@@ -31,25 +31,10 @@ class BookSearchFormType extends AbstractType
                 'class'=> Author::class,
                 'required' => false
             ])
-            ->add('isbn', NumberType::class,
-                [
-                    'label'=>'ISBN',
-                    'required' => false
-                ])
             ->add('kinds',EntityType::class, [
                 'label'=>'Genre',
                 'class'=> Kind::class,
                 'placeholder' => "--Sélectionnez--",
-                'required' => false
-            ])
-            ->add('resume', TextareaType::class,[
-                'label'=> 'Description',
-                'required' => false
-            ])
-            ->add('year', DateType::class, [
-                'label'=> 'Date de Sortie',
-                'widget'=>'single_text',
-                'html5' => false,
                 'required' => false
             ])
             ->add('search', SubmitType::class,[

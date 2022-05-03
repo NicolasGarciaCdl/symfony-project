@@ -6,10 +6,15 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-
+/**
+ * @Vich\Uploadable
+ */
 class Book
 {
     #[ORM\Id]
@@ -33,17 +38,24 @@ class Book
     #[ORM\ManyToOne(targetEntity:Author::class, inversedBy: "books")]
     private Author $author;
 
-    /**
-     * @param Author $author
-     */
-    public function setAuthor(Author $author): void
-    {
-        $this->author = $author;
-    }
-
 
     #[ORM\ManyToMany(targetEntity: Kind::class, inversedBy: 'books')]
     private $kinds;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $coverImageName = null;
+
+    /**
+     * @Vich\UploadableField(mapping="book_cover", fileNameProperty="coverImageName")
+     *
+     */
+    private $coverImageFile;
+
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $updatedAt = null;
+
+
+
 
     #[Pure] public function __construct()
     {
@@ -71,6 +83,15 @@ class Book
     {
         return $this->author;
     }
+
+    /**
+     * @param Author $author
+     */
+    public function setAuthor(Author $author): void
+    {
+        $this->author = $author;
+    }
+
 
 
     public function getIsbn()
@@ -148,4 +169,47 @@ class Book
     {
         $this->kinds = $kinds;
     }
+
+    public function setCoverImageFile(?File $coverImageFile = null): void
+    {
+        $this->coverImageFile = $coverImageFile;
+
+        if (null !== $coverImageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getCoverImageFile(): ?File
+    {
+        return $this->coverImageFile;
+    }
+
+    public function setCoverImageName(?string $CoverImageName): void
+    {
+        $this->coverImageName = $CoverImageName;
+    }
+
+    public function getCoverImageName(): ?string
+    {
+        return $this->coverImageName;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $updatedAt
+     */
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
 }
