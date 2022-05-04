@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Utilisateur</h1>
+        <img src="{{ vich_uploader_asset(user, 'userImageFile') }}" class="card-img-top" alt="image de {{ user.firstname }}...">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+
+            <tr>
+                <th>IsVerified</th>
+                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ user.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Date de Naissance</th>
+                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ user.city }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-success mt-2 mx-1" href="{{ path('app_user_index') }}">Retour à la liste</a>
+        <div class="d-flex">
+
+
+        <a class="btn btn-primary mt-2 mx-1" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+
+        {{ include('user/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
