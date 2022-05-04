@@ -33,9 +33,10 @@
         </table>
 
         <a href="{{ path('app_author_index') }}" class="btn btn-info">Retour vers la liste</a>
-
+        {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_author_edit', {'id': author.id}) }}" class="btn btn-primary">éditer</a>
 
         {{ include('author/_delete_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}

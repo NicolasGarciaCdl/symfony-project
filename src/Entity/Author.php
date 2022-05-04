@@ -6,8 +6,13 @@ use App\Repository\AuthorRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
+/**
+ * @Vich\Uploadable
+ */
 class Author
 {
     #[ORM\Id]
@@ -29,6 +34,19 @@ class Author
 
     #[ORM\OneToMany(mappedBy: "author", targetEntity: Book::class)]
     private $books;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $authorImageName = null;
+
+    /**
+     * @Vich\UploadableField(mapping="author_img", fileNameProperty="authorImageName")
+     *
+     */
+    private $authorImageFile;
+
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $updatedAt = null;
+
 
     #[Pure] public function __toString() {
         return $this->getFirstName() . ' ' . $this->getLastName();
@@ -103,4 +121,46 @@ class Author
         $this->books = $books;
     }
 
+
+    public function setAuthorImageFile(?File $authorImageFile = null): void
+    {
+        $this->authorImageFile = $authorImageFile;
+
+        if (null !== $authorImageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getAuthorImageFile(): ?File
+    {
+        return $this->authorImageFile;
+    }
+
+    public function setAuthorImageName(?string $CoverImageName): void
+    {
+        $this->authorImageName = $CoverImageName;
+    }
+
+    public function getAuthorImageName(): ?string
+    {
+        return $this->authorImageName ;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $updatedAt
+     */
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 }

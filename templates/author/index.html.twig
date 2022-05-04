@@ -4,9 +4,10 @@
 
 {% block body %}
     <div class="container">
-    <h1>Auteur</h1>
-    <a href="{{ path('app_author_new') }}" class="btn btn-warning">Créé un Auteur</a>
-
+        <h1>Auteur</h1>
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_author_new') }}" class="btn btn-warning">Créé un Auteur</a>
+{% endif %}
         <table class="table">
             <thead>
             <tr>
@@ -28,7 +29,9 @@
                     <td>{{ author.country }}</td>
                     <td>
                         <a href="{{ path('app_author_show', {'id': author.id}) }}" class="btn btn-primary">Détail</a>
-                        <a href="{{ path('app_author_edit', {'id': author.id} ) }}" class="btn btn-secondary">éditer</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_author_edit', {'id': author.id} ) }}" class="btn btn-secondary">éditer</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

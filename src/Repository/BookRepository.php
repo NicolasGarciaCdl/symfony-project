@@ -61,6 +61,7 @@ class BookRepository extends ServiceEntityRepository
         }
 
         $query = $qb->getQuery();
+        return $query;
         return $query->execute();
     }
 

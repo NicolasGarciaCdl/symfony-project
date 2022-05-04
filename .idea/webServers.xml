@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a2043c3c-00ab-4e2b-b818-d89ba89e3f8c" name="WipServer" url="http://node35-eu.n0c.com">
+        <fileTransfer rootFolder="/public_html" host="node35-eu.n0c.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,37 +1,39 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="container">
-    <div class="row">
-        <h2>Détail du Livre</h2>
-        <div class="col-3">
-            <a href="{{ path('book_listing') }}" class="btn btn-secondary">Retour</a>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <img src="{{ vich_uploader_asset(book, 'coverImageFile') }}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title"> {{ book.title }}</h5>
-                <p class="card-text">écrit par {{ book.author }}. Son numéro ISBN est : {{ book.isbn }}</p>
-                <h3>Détails de l'auteur</h3>
-                <p>
-                    Prénom: {{ book.author.firstName }}
-                    <br>
-                    Nom: {{ book.author.lastName }}
-                    <br>
-                    <a href="{{path('app_author_show', {id: book.author.id})}}">
-                        Lien de l'auteur
-                    </a>
-                </p>
-                <a href="{{ path('app_book_edit', {id: book.id}) }}"><div class="btn btn-primary">Editer</div></a>
-                <a href="{{ path('book_delete', {id: book.id}) }}"> <div class="btn btn-danger">Supprimer</div></a>
+    <div class="container">
+        <div class="row">
+            <h2>Détail du Livre</h2>
+            <div class="col-3">
+                <a href="{{ path('book_listing') }}" class="btn btn-secondary">Retour</a>
             </div>
-        </div>
+            <div class="card" style="width: 18rem;">
+                <img src="{{ vich_uploader_asset(book, 'coverImageFile') }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ book.title }}</h5>
+                    <p class="card-text">écrit par {{ book.author }}. Son numéro ISBN est : {{ book.isbn }}</p>
+                    <h3>Détails de l'auteur</h3>
+                    <p>
+                        Prénom: {{ book.author.firstName }}
+                        <br>
+                        Nom: {{ book.author.lastName }}
+                        <br>
+                        <a href="{{path('app_author_show', {id: book.author.id})}}">
+                            Lien de l'auteur
+                        </a>
+                    </p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_book_edit', {id: book.id}) }}"><div class="btn btn-primary">Editer</div></a>
+                        <a href="{{ path('book_delete', {id: book.id}) }}"> <div class="btn btn-danger">Supprimer</div></a>
+                    {% endif %}
+                </div>
+            </div>
 
 
         </div>
 
 
     </div>
-</div>
+    </div>
 {% endblock %}
 {% block page_title %}
     Détails du livre
